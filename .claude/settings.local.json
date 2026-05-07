@@ -25,7 +25,9 @@
       "Bash(git config *)",
       "WebSearch",
       "Bash(curl *)",
-      "Bash(git fetch *)"
+      "Bash(git fetch *)",
+      "Bash(sed -i 's/$/\\\\n/' \"src/春物剧情/第一条消息/0.txt\")",
+      "Bash(sed -i 's/\\\\n$//' \"src/春物剧情/第一条消息/0.txt\")"
     ]
   },
   "enableAllProjectMcpServers": true,

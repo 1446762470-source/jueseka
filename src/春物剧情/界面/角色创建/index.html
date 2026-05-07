@@ -3,170 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>春物 — 角色创建</title>
+<title>春物 — 入学登记</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;
-background:#0d151c;color:#d5dfe6;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:1rem;
-background-image:radial-gradient(ellipse at top left,rgba(100,160,200,.06) 0%,transparent 50%),radial-gradient(ellipse at bottom right,rgba(140,180,200,.04) 0%,transparent 50%)
+  font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;
+  background:linear-gradient(180deg,#c5dbe8 0%,#b0c8da 20%,#9ab5c9 40%,#7a9eb2 60%,#5c8799 80%,#4a7385 100%);
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem
 }
-.cg-wrap{max-width:680px;width:100%;padding:24px 20px;background:#13202b;border-radius:14px;border:1px solid #233845;box-shadow:0 0 48px rgba(0,0,0,.35),0 0 60px rgba(100,160,200,.2)}
-.cg-head{text-align:center;margin-bottom:24px}
-.cg-title{font-size:1.5rem;font-weight:900;letter-spacing:3px;background:linear-gradient(135deg,#7cb8d0,#5c8fa0,#b89098);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.cg-sub{font-size:.75rem;color:#6b8290;margin-top:6px;letter-spacing:2px}
-.cg-tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;justify-content:center}
-.cg-tab{padding:8px 18px;border-radius:8px;border:1px solid transparent;background:transparent;color:#6b8290;font-size:.8rem;cursor:pointer;transition:all .2s;font-weight:600;font-family:inherit}
-.cg-tab:hover{color:#d5dfe6;background:rgba(100,160,200,.06)}
-.cg-tab.active{color:#7cb8d0;background:rgba(100,160,200,.1);border-color:rgba(100,160,200,.25);box-shadow:0 0 12px rgba(100,160,200,.2)}
-.cg-pane{display:none}
-.cg-pane.active{display:block}
-.cg-fg{margin-bottom:14px}
-.cg-label{display:block;font-size:.75rem;color:#7cb8d0;margin-bottom:4px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
-.cg-input{width:100%;padding:10px 12px;border:1px solid #233845;background:rgba(0,0,0,.25);border-radius:8px;color:#d5dfe6;font-size:.9rem;font-family:inherit;outline:none;box-sizing:border-box;transition:border .2s}
-.cg-input:focus{border-color:#7cb8d0;box-shadow:0 0 12px rgba(100,160,200,.2)}
-.cg-input::placeholder{color:#445}
-textarea.cg-input{resize:vertical;min-height:70px}
-.cg-opts{display:flex;flex-wrap:wrap;gap:5px}
-.cg-opt{padding:7px 14px;border-radius:8px;border:1px solid rgba(120,170,195,.15);background:rgba(255,255,255,.02);color:rgba(175,200,215,.5);font-size:.78rem;cursor:pointer;transition:all .2s;font-weight:500;font-family:inherit}
-.cg-opt:hover{background:rgba(100,160,200,.15);color:rgba(210,225,235,.8)}
-.cg-opt.active{background:rgba(100,160,200,.25);border-color:rgba(140,190,210,.4);color:#e0eaf0}
-.cg-opt-custom{display:none;margin-top:6px}
-.cg-btn{padding:10px 22px;border-radius:8px;border:none;font-family:inherit;font-size:.85rem;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .2s}
-.cg-btn-sky{background:linear-gradient(135deg,#5c8fa0,#48788a);color:#e8f0f4;box-shadow:0 3px 14px rgba(90,140,170,.2)}
-.cg-btn-sky:hover{transform:translateY(-1px);box-shadow:0 5px 20px rgba(90,140,170,.3)}
-.cg-btn-send{background:linear-gradient(135deg,#7cb8d0,#5c8fa0);color:#fff;box-shadow:0 3px 14px rgba(100,160,200,.2)}
-.cg-btn-send:hover{transform:translateY(-1px);box-shadow:0 5px 20px rgba(100,160,200,.2)}
-.cg-btn-group{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.cg-deco{height:1px;background:linear-gradient(90deg,transparent,#233845,transparent);margin:18px 0}
-.cg-hint{padding:10px 14px;border-left:3px solid #5c8fa0;background:rgba(100,160,200,.04);border-radius:0 8px 8px 0;margin-bottom:14px;font-size:.78rem;color:#5c8fa0}
-.cg-ch-grid{display:grid;grid-template-columns:1fr;gap:8px;max-width:520px}
-.cg-ch-btn{background:#0d151c;border:1px solid #233845;padding:14px 16px;border-radius:10px;cursor:pointer;transition:all .2s;text-align:left}
-.cg-ch-btn:hover{border-color:#7cb8d0;background:rgba(100,160,200,.04);box-shadow:0 6px 20px rgba(0,0,0,.2)}
-.cg-ch-btn.sel{border-color:#7cb8d0;box-shadow:0 0 14px rgba(100,160,200,.2)}
-.cg-ch-title{font-size:.95rem;font-weight:700;color:#d5dfe6;margin-bottom:3px}
-.cg-ch-desc{font-size:.75rem;color:#6b8290;line-height:1.4}
-.cg-preview{background:rgba(0,0,0,.25);border:1px solid #233845;border-radius:10px;padding:12px 16px;margin-top:14px}
-.cg-preview-label{font-size:.7rem;color:#7cb8d0;font-weight:700;letter-spacing:1px;margin-bottom:6px}
-.cg-preview-code{font-family:'Courier New',monospace;font-size:.75rem;color:#5c8fa0;line-height:1.6;white-space:pre-wrap;word-break:break-all}
+.card{max-width:400px;width:100%;padding:28px 24px;border-radius:18px;
+  background:rgba(255,255,255,.12);backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.18);box-shadow:0 8px 40px rgba(0,0,0,.15)}
+.title{text-align:center;font-size:1.4rem;font-weight:900;letter-spacing:3px;
+  color:#2c4a5a;margin-bottom:3px}
+.sub{text-align:center;font-size:.7rem;color:rgba(60,80,100,.55);margin-bottom:22px;letter-spacing:2px}
+.step-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .3s}
+.dot.active{background:rgba(60,110,130,.7);box-shadow:0 0 6px rgba(60,110,130,.4)}
+.fg{margin-bottom:14px}
+.lb{display:block;font-size:.7rem;color:rgba(40,60,80,.6);margin-bottom:3px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.inp{width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.55);
+  border-radius:10px;font-size:.9rem;font-family:inherit;color:#1a3040;outline:none;box-sizing:border-box;transition:border .2s}
+.inp:focus{border-color:rgba(80,140,170,.6);box-shadow:0 0 10px rgba(80,140,170,.15)}
+.inp::placeholder{color:rgba(60,100,120,.3)}
+.opts{display:flex;flex-wrap:wrap;gap:5px}
+.opt{padding:7px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.3);
+  color:rgba(40,70,90,.6);font-size:.78rem;cursor:pointer;transition:all .15s;font-weight:500;font-family:inherit}
+.opt:hover{background:rgba(255,255,255,.5);color:#1a3040}
+.opt.active{background:rgba(90,150,180,.35);border-color:rgba(90,150,180,.5);color:#1a3040;font-weight:700}
+.opt-custom{display:none;margin-top:6px}
+.page{display:none}
+.page.active{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
+.btn-row{display:flex;gap:10px;margin-top:4px}
+.btn{flex:1;padding:12px;border-radius:10px;border:none;font-family:inherit;font-size:.9rem;font-weight:700;
+  letter-spacing:1px;cursor:pointer;transition:all .2s}
+.btn-next{background:linear-gradient(135deg,#5c8fa0,#3d6a7a);color:#fff;box-shadow:0 3px 16px rgba(60,110,130,.3)}
+.btn-next:hover{transform:translateY(-1px);box-shadow:0 5px 24px rgba(60,110,130,.4)}
+.btn-next:active{transform:scale(.98)}
+.btn-back{background:rgba(255,255,255,.3);color:#2c4a5a;border:1px solid rgba(255,255,255,.2)}
+.btn-back:hover{background:rgba(255,255,255,.45)}
+.btn-start{background:linear-gradient(135deg,#4a8a6a,#2d6048);color:#fff;box-shadow:0 3px 16px rgba(60,130,90,.3)}
+.btn-start:hover{transform:translateY(-1px);box-shadow:0 5px 24px rgba(60,130,90,.4)}
+.btn-start:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;pointer-events:none}
+#toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:rgba(40,80,100,.9);color:#fff;padding:12px 24px;border-radius:10px;
+  font-weight:700;letter-spacing:1px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;
+  text-align:center;max-width:300px;font-family:inherit}
+#toast.show{opacity:1}
 </style>
 </head>
 <body>
-<div class="cg-wrap">
-<div class="cg-head"><div class="cg-title">—— 总武高中 · 入学登记 ——</div><div class="cg-sub">やはり俺の青春ラブコメはまちがっている。</div></div>
+<div class="card">
+<div class="title">—— 总武高中 · 入学登记 ——</div>
+<div class="sub">やはり俺の青春ラブコメはまちがっている。</div>
+<div class="step-dots"><div class="dot active" id="dot1"></div><div class="dot" id="dot2"></div></div>
 
-<div class="cg-tabs">
-<button class="cg-tab active" data-tab="cg-pane-profile">🎭 角色设定</button>
-<button class="cg-tab" data-tab="cg-pane-start">📖 开始游戏</button>
-</div>
-
-<div class="cg-pane active" id="cg-pane-profile">
-<div class="cg-hint">请填写你在总武高中的身份信息。带 * 的为必填项。</div>
-<div class="cg-fg"><label class="cg-label">* 姓名</label><input class="cg-input" id="cg-name" placeholder="你的名字" maxlength="10"></div>
-<div class="cg-fg"><label class="cg-label">* 年龄</label><input class="cg-input" id="cg-age" type="number" value="17" min="15" max="20"></div>
-<div class="cg-fg"><label class="cg-label">* 性别</label><div class="cg-opts" id="cg-opt-gender">
-<button class="cg-opt" data-v="男">♂ 男</button><button class="cg-opt" data-v="女">♀ 女</button><button class="cg-opt" data-v="__c__">自定义</button>
-</div><input class="cg-input cg-opt-custom" id="cg-gender-custom" placeholder="自定义性别" maxlength="10"></div>
-<div class="cg-fg"><label class="cg-label">* 班级</label><div class="cg-opts" id="cg-opt-role">
-<button class="cg-opt" data-v="总武高高二J班学生">J班（雪乃）</button><button class="cg-opt" data-v="总武高高二F班学生">F班（八幡·结衣）</button><button class="cg-opt" data-v="总武高高二C班学生">C班（彩加）</button><button class="cg-opt" data-v="__c__">自定义</button>
-</div><input class="cg-input cg-opt-custom" id="cg-role-custom" placeholder="自定义身份，如：总武高教师..." maxlength="30"></div>
-<div class="cg-fg"><label class="cg-label">* 特长</label><input class="cg-input" id="cg-talent" placeholder="你的特长，如：洞察人心、文学创作..." maxlength="20"></div>
-<div class="cg-btn-group"><button class="cg-btn cg-btn-sky" id="cg-btn-profile">确认角色设定</button></div>
+<!-- Page 1: 出身设定 -->
+<div class="page active" id="page1">
+<div class="fg"><label class="lb">姓名</label><input class="inp" id="name" placeholder="你的名字" maxlength="10"></div>
+<div class="fg"><label class="lb">年龄</label><input class="inp" id="age" type="number" value="17" min="15" max="20"></div>
+<div class="fg"><label class="lb">性别</label>
+<div class="opts" id="opt-gender">
+<button class="opt" data-v="男">♂ 男</button><button class="opt" data-v="女">♀ 女</button><button class="opt" data-v="__c__">⚧ 自定义</button>
+</div><input class="inp opt-custom" id="gender-custom" placeholder="自定义性别" maxlength="10"></div>
+<div class="fg"><label class="lb">身份</label>
+<div class="opts" id="opt-role">
+<button class="opt" data-v="总武高高二J班学生">J班（雪乃）</button><button class="opt" data-v="总武高高二F班学生">F班（八幡·结衣）</button><button class="opt" data-v="总武高高二C班学生">C班（彩加）</button><button class="opt" data-v="__c__">✎ 自定义</button>
+</div><input class="inp opt-custom" id="role-custom" placeholder="自定义身份，如：总武高教师..." maxlength="30"></div>
+<div class="btn-row"><button class="btn btn-next" id="btn-next">下一页 →</button></div>
 </div>
 
-<div class="cg-pane" id="cg-pane-start">
-<div class="cg-hint">选择故事起点与日期，AI将根据你的设定生成专属开局。</div>
-<div class="cg-fg"><label class="cg-label">📅 故事开始日期</label><input class="cg-input" id="cg-date" type="date" value="2012-04-08" min="2012-04-08" max="2014-01-01"></div>
-<div class="cg-deco"></div>
-<label class="cg-label">📖 预设开场</label>
-<div class="cg-ch-grid">
-<button class="cg-ch-btn sel" data-ch="序幕"><div class="cg-ch-title">🌸 序幕 · 开学典礼</div><div class="cg-ch-desc">4月8日。樱花散尽的通学路上，新学年的第一天。</div></button>
-<button class="cg-ch-btn" data-ch="侍奉部"><div class="cg-ch-title">📚 第一卷 · 侍奉部</div><div class="cg-ch-desc">被平冢静强行带入侍奉部，与雪之下雪乃初次会面。</div></button>
-<button class="cg-ch-btn" data-ch="自定义开场"><div class="cg-ch-title">✏️ 我的青春恋爱物语果然有问题</div><div class="cg-ch-desc">被平冢静叫到办公室，一篇作文引发的骚动。</div></button>
-<button class="cg-ch-btn" data-ch="__c__"><div class="cg-ch-title">🖋 完全自定义</div><div class="cg-ch-desc">输入你想要的时间、地点、场景。</div></button>
-</div>
-<div class="cg-fg" style="margin-top:14px"><label class="cg-label">自定义场景（可选）</label><textarea class="cg-input" id="cg-scene" rows="3" placeholder="描述你想要的开局补充..."></textarea></div>
-<div class="cg-deco"></div>
-<div class="cg-preview"><div class="cg-preview-label">📨 开局消息预览</div><div class="cg-preview-code" id="cg-preview">请先完成角色设定...</div></div>
-<div class="cg-btn-group"><button class="cg-btn cg-btn-send" id="cg-btn-send">📨 发送开局设置</button></div>
+<!-- Page 2: 开始 -->
+<div class="page" id="page2">
+<div class="fg"><label class="lb">📅 故事开始日期</label><input class="inp" id="date" type="date" value="2012-04-08" min="2012-04-08" max="2014-01-01"></div>
+<div class="fg"><label class="lb">自定义场景（可选）</label><textarea class="inp" id="scene" rows="3" placeholder="描述你想要的开局…" style="resize:vertical"></textarea></div>
+<div class="btn-row">
+<button class="btn btn-back" id="btn-back">← 返回</button>
+<button class="btn btn-start" id="btn-start">开始故事</button>
 </div>
 </div>
+
+</div>
+<div id="toast"></div>
 
 <script>
 (function(){
-var sel={gender:'',role:'',chapter:'序幕'},profileOk=false;
-var CUSTOM_OPENING="人一生里总有几次觉得自己看见了天使之门洞开，我等了十八年，在我最衰的那一刻，门终于开了。\n我一脸平静的看着平冢静递给我的试卷，轻声感慨。\n\"你的眼中也藏着狮子？不是我说，别人四分之一的生命用来说一句，something for nothing，能够为喜欢自己的女生复仇，而你{{user}}，人生到现在四分之一的生命只换来了并不算优秀的学习成绩以及孤独自嗨到像是臭蛆发烂的人际关系。\"\n平冢静把我的作文翻开后揪着我的耳朵骂，我被揪的生疼，连忙求饶：\"疼疼疼，老师，不是你要我说我的感受的吗？大龄女教师到了更年期都会这么暴躁吗？\"\n不得不承认，跟一个女教师，尤其是教书育人多年的女教师求饶会起到不错的效果，起码……现在的她放过了我的耳朵，转而掐住了我的脖子，脸涨的通红的感觉像是青春期恋爱一般……\n才怪！\n\"要死了……老师……还有什么比你想在我的作文做阅读理解时，发现我已经不在人世更遗憾的事情吗？\"\n听到我的这句话她才放开了手，转而将重点放到了我的作文上，\"说说吧，你到底是什么抱着什么想法下才写出来这种东西的？\"\n我撇了眼微卷的作文本，上面潦草的字迹以及红色的油滴倒是和发黄的纸页相映衬。\n\"老师，你不觉得我的作文字里行间都透露着'吃人'……\"\n\"铁拳\"毫无例外的又出现在我眼前，我收住了声，转而正经的说：\n\"我认为人与人之间的关系可以是很深入的，但我也坚信人与人总是会分离，符合您布置这篇作文的要求。\"\n平冢静头疼的敲着桌面，\n\"这就是我叫你过来的原因，据我所知，{{user}}，你完全没有朋友，是因为坚信会分离所以就一个朋友都不找？宁愿像个垃圾桶一样，偶尔有人朝你丢垃圾，然后转眼就把这个垃圾丢到了垃圾场是吗？\"\n我点了点头，\"没错，我觉得班上那些人已经和我隔了一层可悲的厚障壁。\"\n我的话像是水滴落入大海的波纹，消失了，大海也就平静无息。\n平冢静嘴角微动，这种生气却又想笑的表情还是我第一次在她脸上见到，最终她还是笑了出来，伴随着摇头这个动作。\n\"行了，你滚吧，明天这个时候来办公室找我，我会给你一些安排，现在我就不打扰你等会儿英语听写的临时抱佛脚了。\"\n收到指令的我走到门外，关门前摆出严肃的表情说：\"虽然我不知道老师你对我的误解从何而来，但我想说一句，我可不是恋足癖，临时抱佛脚这种杂鱼的事情我可从来不做。\"\n然后不给一丝她开口的机会，迅速把门关上，阳光、落樱、春风、人潮涌动，我独自回到了教室。";
-
+var sel={gender:'',role:''},currentPage=1;
 function $(id){return document.getElementById(id)}
 
-document.querySelectorAll('.cg-tab').forEach(function(b){b.addEventListener('click',function(){
-  document.querySelectorAll('.cg-tab').forEach(function(x){x.classList.remove('active')});
-  b.classList.add('active');
-  document.querySelectorAll('.cg-pane').forEach(function(p){p.classList.remove('active')});
-  $(b.dataset.tab).classList.add('active');
-})});
-
-document.querySelectorAll('.cg-opts').forEach(function(g){g.addEventListener('click',function(e){
-  if(!e.target.classList.contains('cg-opt'))return;
-  var b=e.target,v=b.dataset.v,pid=g.id;
-  g.querySelectorAll('.cg-opt').forEach(function(x){x.classList.remove('active')});
-  b.classList.add('active');
-  if(pid==='cg-opt-gender'){sel.gender=v;$('cg-gender-custom').style.display=v==='__c__'?'block':'none';if(v==='__c__')$('cg-gender-custom').focus()}
-  if(pid==='cg-opt-role'){sel.role=v;$('cg-role-custom').style.display=v==='__c__'?'block':'none';if(v==='__c__')$('cg-role-custom').focus()}
-})});
-
-document.querySelectorAll('.cg-ch-btn').forEach(function(b){b.addEventListener('click',function(){
-  document.querySelectorAll('.cg-ch-btn').forEach(function(x){x.classList.remove('sel')});
-  b.classList.add('sel');sel.chapter=b.dataset.ch;
-  var dates={序幕:'2012-04-08',侍奉部:'2012-04-16',自定义开场:'2012-04-08'};
-  if(dates[sel.chapter])$('cg-date').value=dates[sel.chapter];
-  updatePreview();
-})});
-
-$('cg-date').addEventListener('input',updatePreview);
-$('cg-scene').addEventListener('input',updatePreview);
-
-$('cg-btn-profile').addEventListener('click',function(){
-  var name=$('cg-name').value.trim(),age=parseInt($('cg-age').value)||17;
-  if(!name){alert('请输入姓名');return}
-  if(sel.gender==='__c__'){sel.gender=$('cg-gender-custom').value.trim();if(!sel.gender){alert('请输入性别');return}}
-  if(!sel.gender){alert('请选择性别');return}
-  if(sel.role==='__c__'){sel.role=$('cg-role-custom').value.trim();if(!sel.role){alert('请输入身份');return}}
-  if(!sel.role){alert('请选择班级');return}
-  var talent=$('cg-talent').value.trim();
-  if(!talent){alert('请输入特长');return}
-  sel._name=name;sel._age=age;sel._talent=talent;
-  profileOk=true;
-  try{if(typeof insertOrAssignVariables==='function')insertOrAssignVariables({主角:{名称:name,个人信息:{性别:sel.gender,年龄:age},身份:[{组织:'总武高等学校',职位:sel.role}],属性:{特长:talent}}},{type:'character'})}catch(e){}
-  updatePreview();
-  alert('角色设定已确认！\n\n'+name+' / '+age+'岁 / '+sel.gender+' / '+sel.role+' / 特长:'+talent);
-});
-
-function buildMsg(){
-  if(!profileOk)return'请先在「角色设定」中确认角色信息。';
-  var date=$('cg-date').value||'2012-04-08';
-  var m='开局设置\n玩家: '+sel._name+' / '+sel._age+'岁 / '+sel.gender+' / '+sel.role+' / 特长:'+sel._talent;
-  m+='\n日期: '+date;
-  if(sel.chapter==='自定义开场')m+='\n以下为自定义开场白，请AI承接继续叙述：\n\n'+CUSTOM_OPENING;
-  else if(sel.chapter==='序幕')m+='\n场景: 总武高中开学典礼。四月，樱花散尽，新学期开始。';
-  else if(sel.chapter==='侍奉部')m+='\n场景: 平冢静将{{user}}强行带入侍奉部，与雪之下雪乃初次会面。';
-  var scene=$('cg-scene').value.trim();
-  if(scene)m+='\n补充: '+scene;
-  return m;
+function toast(msg,ms){
+  var t=$('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show')},ms||2000);
 }
-function updatePreview(){$('cg-preview').textContent=buildMsg()}
+function goPage(n){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  $('page'+n).classList.add('active');
+  $('dot1').classList.toggle('active',n===1);
+  $('dot2').classList.toggle('active',n===2);
+  currentPage=n;
+}
 
-$('cg-btn-send').addEventListener('click',function(){
-  if(!profileOk){alert('请先完成角色设定');return}
-  if(sel.chapter==='__c__'&&!$('cg-scene').value.trim()){alert('请选择预设章节或填写自定义场景');return}
-  var msg=buildMsg();
-  console.info('[春物]发送:',msg);
-  if(typeof triggerSlash==='function')triggerSlash('/send '+msg.replace(/\n/g,'\\n'));
-  else alert('调试模式:\n\n'+msg);
+document.querySelectorAll('.opts').forEach(function(g){g.addEventListener('click',function(e){
+  if(!e.target.classList.contains('opt'))return;
+  var b=e.target,v=b.dataset.v,pid=g.id;
+  g.querySelectorAll('.opt').forEach(function(x){x.classList.remove('active')});
+  b.classList.add('active');
+  if(pid==='opt-gender'){sel.gender=v;$('gender-custom').style.display=v==='__c__'?'block':'none';if(v==='__c__')$('gender-custom').focus()}
+  if(pid==='opt-role'){sel.role=v;$('role-custom').style.display=v==='__c__'?'block':'none';if(v==='__c__')$('role-custom').focus()}
+})});
+
+$('btn-next').addEventListener('click',function(){
+  var name=$('name').value.trim();
+  var age=parseInt($('age').value)||17;
+  if(!name){toast('请输入姓名');return}
+  if(sel.gender==='__c__'){sel.gender=$('gender-custom').value.trim();if(!sel.gender){toast('请输入性别');return}}
+  if(!sel.gender){toast('请选择性别');return}
+  if(sel.role==='__c__'){sel.role=$('role-custom').value.trim();if(!sel.role){toast('请输入身份');return}}
+  if(!sel.role){toast('请选择班级');return}
+  sel._name=name;sel._age=age;
+  goPage(2);
 });
 
-updatePreview();
-console.info('[春物]角色创建UI已加载');
+$('btn-back').addEventListener('click',function(){goPage(1)});
+
+$('btn-start').addEventListener('click',function(){
+  $('btn-start').textContent='创建中...';$('btn-start').disabled=true;
+  var date=$('date').value||'2012-04-08';
+  var scene=$('scene').value.trim();
+
+  try{
+    if(typeof insertOrAssignVariables==='function'){
+      insertOrAssignVariables({
+        主角:{名称:sel._name,个人信息:{性别:sel.gender,年龄:sel._age},身份:[{组织:'总武高等学校',职位:sel.role}]}
+      },{type:'character'});
+    }
+  }catch(e){}
+
+  var msg='开局设置\\n姓名:'+sel._name+' 年龄:'+sel._age+' 性别:'+sel.gender+' 身份:'+sel.role+'\\n日期:'+date;
+  if(scene)msg+='\\n场景补充:'+scene;
+  msg+='\\n请以轻小说《我的青春恋爱物语果然有问题》的世界观和文风，为这位总武高中的学生创作一个专属的开学第一天开场。';
+
+  if(typeof triggerSlash==='function'){triggerSlash('/send '+msg.replace(/\\n/g,'\\\\n'))}
+  toast('故事即将开始...',3000);
+  setTimeout(function(){$('btn-start').textContent='开始故事';$('btn-start').disabled=false},3500);
+});
 })();
 </script>
 </body>

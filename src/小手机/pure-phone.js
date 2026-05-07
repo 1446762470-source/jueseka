@@ -952,10 +952,6 @@
     apiUrl: '',
     apiKey: '',
     apiModel: 'gpt-3.5-turbo',
-    chatMessages: [],
-    apiUrl: '',
-    apiKey: '',
-    apiModel: 'gpt-3.5-turbo',
     chatMessages: []
   };
 
@@ -973,7 +969,6 @@
       if (typeof sv.apiKey === 'string') s.apiKey = sv.apiKey;
       if (typeof sv.apiModel === 'string') s.apiModel = sv.apiModel;
       if (Array.isArray(sv.chatMessages)) s.chatMessages = sv.chatMessages;
-      if (typeof sv.apiUrl === 'string') s.apiUrl = sv.apiUrl;
       if (typeof sv.apiKey === 'string') s.apiKey = sv.apiKey;
       if (typeof sv.apiModel === 'string') s.apiModel = sv.apiModel;
       if (Array.isArray(sv.chatMessages)) s.chatMessages = sv.chatMessages;
@@ -1139,24 +1134,12 @@
         html += '<button class="sp-settings-option' + (settings.mode === 'mobile' ? ' sp-settings-option--active' : '') + '" data-mode="mobile">';
         html += '<i class="fa-solid fa-mobile-screen"></i><span>手机端</span></button>';
         html += '</div></div>';
-        // Wallpaper setting
-        html += '<div class="sp-settings-group">';
-        html += '<div class="sp-settings-group">';
-        html += '<div class="sp-settings-label">API 设置</div>';
-        html += '<div style="margin-bottom:8px"><input class="sp-wallpaper-input" id="sp-api-url" type="text" placeholder="API URL (OpenAI兼容)" value="' + esc(settings.apiUrl || '') + '"></div>';
-        html += '<div style="margin-bottom:8px"><input class="sp-wallpaper-input" id="sp-api-key" type="password" placeholder="API Key" value="' + esc(settings.apiKey || '') + '"></div>';
-        html += '<div><input class="sp-wallpaper-input" id="sp-api-model" type="text" placeholder="模型名称" value="' + esc(settings.apiModel || 'gpt-3.5-turbo') + '"></div>';
-        html += '</div>';
         html += '<div class="sp-settings-group">';
         html += '<div class="sp-settings-label">API 设置</div>';
         html += '<div style="margin-bottom:8px"><input class="sp-wallpaper-input" id="sp-api-url" type="text" placeholder="API URL (OpenAI兼容)" value="' + esc(settings.apiUrl || '') + '"></div>';
         html += '<div style="margin-bottom:8px"><input class="sp-wallpaper-input" id="sp-api-key" type="password" placeholder="API Key" value="' + esc(settings.apiKey || '') + '"></div>';
         html += '<div style="display:flex;gap:6px"><input class="sp-wallpaper-input" id="sp-api-model" type="text" placeholder="模型" value="' + esc(settings.apiModel || 'gpt-3.5-turbo') + '" style="flex:1"><button class="sp-chat-send-btn" id="sp-fetch-models" style="width:auto;padding:0 10px;font-size:10px;border-radius:6px">拉取</button></div>';
         html += '<select class="sp-wallpaper-input" id="sp-model-list" style="display:none;margin-top:4px;font-size:10px"></select>';
-        html += '</div>';
-        html += '<div class="sp-settings-label">壁纸图片</div>';
-        html += '<input class="sp-wallpaper-input" type="text" placeholder="输入图片URL（本地请用 http://localhost/... ）" value="' + esc(settings.wallpaper || '') + '">';
-        html += '<div style="font-size:9px;color:rgba(255,255,255,.25);margin-top:4px">留空则使用默认渐变背景</div>';
         html += '</div></div>';
         break;
       case 'chat':
@@ -1381,7 +1364,7 @@
       var url = ($appContent.find('#sp-api-url').val() || settings.apiUrl || '').trim();
       var key = ($appContent.find('#sp-api-key').val() || settings.apiKey || '').trim();
       if (!url || !key) { return; }
-      var base = url.replace(/\/chat\/completions\/?$/,'').replace(/\/v1\/?$/,'') + '/v1/models';
+      var base = url.replace(/\/chat\/completions(\/.*)?$/,'').replace(/\/v1\/?$/,'') + '/models';
       var $btn = $appContent.find('#sp-fetch-models');
       $btn.text('...').prop('disabled', true);
       fetch(base, {headers:{'Authorization':'Bearer '+key}})
@@ -1398,9 +1381,6 @@
     });
 
     // API settings binding
-    $appContent.find('#sp-api-url').on('change', function () { settings.apiUrl = $(this).val() || ''; saveSettings(settings); });
-    $appContent.find('#sp-api-key').on('change', function () { settings.apiKey = $(this).val() || ''; saveSettings(settings); });
-    $appContent.find('#sp-api-model').on('change', function () { settings.apiModel = $(this).val() || 'gpt-3.5-turbo'; saveSettings(settings); });
 
     $appContent.find('.sp-card-remove').on('click', function () {
       var cid = $(this).data('card-id');
@@ -1500,81 +1480,7 @@
     });
   }
 
-  function sendChatMessage() {
-    var $input = $appContent.find('#sp-chat-input');
-    var text = $input.val().trim();
-    if (!text) return;
-    var $msgs = $appContent.find('#sp-chat-msgs');
-    var $empty = $msgs.find('.sp-chat-empty');
-    if ($empty.length) $empty.remove();
-
-    // User message
-    settings.chatMessages.push({ role: 'user', content: text, name: '我' });
-    var row = $('<div>').addClass('sp-chat-msg-row sp-chat-msg-row--self');
-    row.append($('<div>').addClass('sp-chat-avatar').css('background','#07c160').text('我'));
-    row.append($('<div>').addClass('sp-chat-bubble sp-chat-bubble--self').text(text));
-    $msgs.append(row);
-    $msgs.scrollTop($msgs[0].scrollHeight);
-    $input.val('').focus();
-
-    if (!settings.apiUrl || !settings.apiKey) {
-      settings.chatMessages.push({ role: 'system', content: '请先在设置中配置API' });
-      $msgs.append($('<div>').addClass('sp-chat-sysmsg').text('请先在设置中配置API'));
-      return;
-    }
-
-    var $typing = $appContent.find('#sp-chat-typing');
-    var $sendBtn = $appContent.find('#sp-chat-send-btn');
-    $typing.show(); $sendBtn.prop('disabled', true);
-
-    // Build system prompt
-    var npcDesc = '';
-    for (var ni = 0; ni < activeNpcs.length; ni++) {
-      var nn = activeNpcs[ni];
-      var cd = settings.characters[nn];
-      npcDesc += nn + '(好感度:' + (cd ? cd['好感度'] || 0 : 0) + '); ';
-    }
-    var systemPrompt = '你在一个微信群聊中扮演以下角色。请根据对话判断该由谁回复，以该角色的语气说话。回复格式：[角色名]: 内容。\n\n参与角色: ' + (npcDesc || '无') + '\n玩家: {{user}}\n\n一次只扮演一个角色。使用中文。';
-
-    // Build API messages
-    var apiMessages = [{ role: 'system', content: systemPrompt }];
-    for (var ai = 0; ai < settings.chatMessages.length; ai++) {
-      var m = settings.chatMessages[ai];
-      if (m.role === 'system') continue;
-      apiMessages.push({ role: m.role === 'user' ? 'user' : 'assistant', content: (m.name || '?') + ': ' + m.content });
-    }
-
-    fetch(settings.apiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + settings.apiKey },
-      body: JSON.stringify({ model: settings.apiModel, messages: apiMessages, max_tokens: 500, temperature: 0.8 })
-    })
-    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(function (data) {
-      var reply = data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : '';
-      if (!reply) reply = '[空回复]';
-      var npcName = 'AI';
-      var npcContent = reply;
-      var match = reply.match(/^\[([^\]]+)\]\s*:\s*(.+)/s);
-      if (match) { npcName = match[1].trim(); npcContent = match[2].trim(); }
-      settings.chatMessages.push({ role: 'ai', content: npcContent, name: npcName });
-      var row2 = $('<div>').addClass('sp-chat-msg-row');
-      var bg2 = npcColors[npcName] || '#888';
-      row2.append($('<div>').addClass('sp-chat-avatar').css('background',bg2).text(npcName.charAt(0)));
-      row2.append($('<div>').addClass('sp-chat-bubble sp-chat-bubble--other').text(npcContent));
-      $msgs.append(row2);
-      saveSettings(settings);
-    })
-    .catch(function (err) {
-      settings.chatMessages.push({ role: 'system', content: '错误: ' + (err.message || '网络请求失败') });
-      $msgs.append($('<div>').addClass('sp-chat-sysmsg').text('错误: ' + (err.message || '网络请求失败')));
-    })
-    .finally(function () {
-      $typing.hide(); $sendBtn.prop('disabled', false);
-      saveSettings(settings);
-      $msgs.scrollTop($msgs[0].scrollHeight);
-    });
-  }
+  
 
   function renderHomeScreenFull() {
     if (activeApp === 'home') {

@@ -1,0 +1,73 @@
+@@preprocessing
+<%
+// 获取最近两条消息作为扫描范围（AI回复+用户回复）
+const scanMessages = getChatMessages(-1, -2);
+let messageText = '';
+for (let msg of scanMessages) {
+  if (msg && msg.message) {
+    messageText += msg.message + ' ';
+  }
+}
+
+// ================== 剧情卷数抓取逻辑 ==================
+const volumeMap = {
+  '第一卷': '[数据]主线剧情_第一卷',
+  '第二卷': '[数据]主线剧情_第二卷',
+  '第三卷': '[数据]主线剧情_第三卷',
+  '第四卷': '[数据]主线剧情_第四卷',
+  '第五卷': '[数据]主线剧情_第五卷',
+  '第六卷': '[数据]主线剧情_第六卷',
+  '第六点五卷': '[数据]主线剧情_第六点五卷',
+  '第七卷': '[数据]主线剧情_第七卷',
+  '第七点五卷': '[数据]主线剧情_第七点五卷',
+  '第八卷': '[数据]主线剧情_第八卷',
+  '第九卷': '[数据]主线剧情_第九卷',
+  '第十卷': '[数据]主线剧情_第十卷',
+  '第十点五卷': '[数据]主线剧情_第十点五卷',
+  '第十一卷': '[数据]主线剧情_第十一卷',
+  '第十二卷': '[数据]主线剧情_第十二卷',
+  '第十三卷': '[数据]主线剧情_第十三卷',
+  '第十四卷': '[数据]主线剧情_第十四卷',
+  '第十四点五卷': '[数据]主线剧情_第十四点五卷'
+};
+
+var targetVolume = null;
+for (const [key, value] of Object.entries(volumeMap)) {
+  if (messageText.includes(key) || messageText.includes(value)) {
+    targetVolume = value;
+    break; // 一般一次只加载一卷剧情
+  }
+}
+
+// ================== 角色人设抓取逻辑 ==================
+// 键为条目名称，值为触发关键词数组
+const characterMap = {
+  '一色彩羽': ['一色彩羽', '彩羽'],
+  '三浦优美子': ['三浦优美子', '三浦', '优美子'],
+  '川崎沙希': ['川崎沙希', '沙希'],
+  '平冢静': ['平冢静', '静老师', '静'],
+  '由比滨结衣': ['由比滨结衣', '团子', '结衣'],
+  '雪之下阳乃': ['雪之下阳乃', '阳乃姐姐', '阳乃'],
+  '雪之下雪乃': ['雪之下雪乃', '雪乃']
+};
+
+let activeCharacters = [];
+for (const [charName, keys] of Object.entries(characterMap)) {
+  // 如果消息中包含该角色的任何一个关键词
+  if (keys.some(key => messageText.includes(key))) {
+    activeCharacters.push(charName);
+  }
+}
+%>
+
+<% if (!isFloorZero) { %>
+  <% /* 注入主线剧情 */ %>
+  <% if (targetVolume) { %>
+    <%- await getwi(targetVolume) %>
+  <% } %>
+
+  <% /* 注入角色人设 */ %>
+  <% for (let charName of activeCharacters) { %>
+    <%- await getwi(charName) %>
+  <% } %>
+<% } %>

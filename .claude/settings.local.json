@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ' *)",
+      "Bash(python *)",
+      "Bash(pnpm watch *)",
+      "Bash(pnpm build *)",
+      "Bash(node *)",
+      "Bash(python3 *)",
+      "Bash(grep -E \"\\\\.\\(png|json\\)$\")",
+      "WebFetch(domain:testingcf.jsdelivr.net)",
+      "WebFetch(domain:github.com)",
+      "Bash('\\)\\) && !line.startsWith\\(' '\\)\\){ *)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill -PID 27060 -F)",
+      "Bash(awk '{print $5}')",
+      "Bash(npx serve *)",
+      "Bash(git init *)",
+      "Bash(gh auth *)",
+      "Bash(git remote *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git branch *)",
+      "Bash(git push *)",
+      "Bash(git config *)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "chrome-devtools"
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "世界状态": {
+      "type": "object",
+      "properties": {
+        "时间": {
+          "type": "object",
+          "properties": {
+            "日期": {
+              "default": "2012-04-08",
+              "type": "string"
+            },
+            "当前片段": {
+              "default": "早晨",
+              "type": "string"
+            }
+          }
+        },
+        "季节": {
+          "default": "春",
+          "type": "string"
+        },
+        "天气": {
+          "default": "晴天",
+          "type": "string"
+        }
+      },
+      "required": [
+        "时间"
+      ]
+    },
+    "主角": {
+      "type": "object",
+      "properties": {
+        "余额": {
+          "default": 30000,
+          "type": "number"
+        },
+        "卡牌背包": {
+          "default": {},
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "description": "卡牌id"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "类型": {
+                "type": "string",
+                "enum": [
+                  "物品卡",
+                  "属性卡",
+                  "技能卡",
+                  "事件卡",
+                  "角色卡",
+                  "任务",
+                  "朋友卡",
+                  "命运卡"
+                ]
+              },
+              "等级": {
+                "type": "string",
+                "enum": [
+                  "F",
+                  "D",
+                  "C",
+                  "B",
+                  "A",
+                  "S",
+                  "SS",
+                  "SSS"
+                ]
+              },
+              "描述": {
+                "default": "",
+                "type": "string"
+              }
+            },
+            "required": [
+              "名称",
+              "类型",
+              "等级"
+            ]
+          }
+        }
+      }
+    },
+    "角色列表": {
+      "default": {},
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "description": "角色名"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "好感度": {
+            "default": 0,
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "世界状态",
+    "主角"
+  ]
+}

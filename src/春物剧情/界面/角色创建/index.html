@@ -8,15 +8,15 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;overflow:hidden;height:100dvh}
 
-.page1{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:14vh;
+.page1{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
   background:linear-gradient(180deg,#c9ddf5 0%,#d4e2f5 25%,#e0d8f0 50%,#f0c8d8 75%,#f5b8c8 100%);z-index:1}
 
-.gate-bg{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:380px;height:40%}
-.gate-pillars{position:absolute;bottom:0;left:10%;width:18%;height:65%;background:linear-gradient(180deg,#8b7355,#6b5340);border-radius:4px 4px 0 0;box-shadow:2px 0 8px rgba(0,0,0,.15)}
-.gate-pillars.right{left:auto;right:10%}
-.gate-arch{position:absolute;bottom:58%;left:6%;right:6%;height:16%;border:8px solid #8b7355;border-bottom:none;border-radius:14px 14px 0 0;background:transparent}
-.gate-name{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;color:#8b7355;font-weight:900;letter-spacing:3px;white-space:nowrap}
-.gate-wall{position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(180deg,rgba(245,240,235,.85),rgba(235,225,215,.9));border-top:2px solid rgba(139,115,85,.3)}
+.gate-bg{position:absolute;inset:0;pointer-events:none}
+.gate-pillars{position:absolute;bottom:0;left:18%;width:14%;height:70%;background:linear-gradient(180deg,#9b8370,#7b6350);border-radius:4px 4px 0 0;box-shadow:3px 0 12px rgba(0,0,0,.12)}
+.gate-pillars.right{left:auto;right:18%}
+.gate-arch{position:absolute;top:20%;left:12%;right:12%;height:12%;border:10px solid #9b8370;border-bottom:none;border-radius:20px 20px 0 0;background:transparent}
+.gate-name{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;color:#9b8370;font-weight:900;letter-spacing:6px;white-space:nowrap}
+.gate-wall{position:absolute;bottom:0;left:0;right:0;height:25%;background:linear-gradient(180deg,rgba(250,245,240,.7),rgba(240,230,220,.75))}
 
 .petals{position:fixed;top:0;left:0;right:0;height:20vh;pointer-events:none;z-index:10}
 .petal{position:absolute;top:-20px;background:radial-gradient(circle at 30% 30%,rgba(255,220,230,.9),rgba(255,190,205,.5) 40%,rgba(255,170,190,0) 70%);border-radius:50% 0 50% 50%;animation:fall linear infinite}

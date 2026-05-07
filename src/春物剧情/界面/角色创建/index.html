@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>春物</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;overflow:hidden;height:100vh}
+
+/* Page 1: Welcome */
+.page1{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,#c9ddf5 0%,#d4e2f5 25%,#e0d8f0 50%,#f0c8d8 75%,#f5b8c8 100%);
+  z-index:1;cursor:default}
+
+/* School gate */
+.gate-bg{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:500px;height:55%;pointer-events:none}
+.gate-pillars{position:absolute;bottom:0;left:15%;width:16%;height:60%;background:linear-gradient(180deg,#8b7355,#6b5340);border-radius:4px 4px 0 0;box-shadow:2px 0 8px rgba(0,0,0,.15)}
+.gate-pillars.right{left:auto;right:15%}
+.gate-arch{position:absolute;bottom:55%;left:10%;right:10%;height:14%;border:10px solid #8b7355;border-bottom:none;border-radius:16px 16px 0 0;background:transparent}
+.gate-name{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;color:#8b7355;font-weight:900;letter-spacing:4px;white-space:nowrap}
+.gate-wall{position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(180deg,rgba(245,240,235,.8),rgba(235,225,215,.9));border-top:2px solid rgba(139,115,85,.3)}
+.gate-wall::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:rgba(139,115,85,.2)}
+
+/* Cherry petals - top 1/5 area */
+.petals{position:fixed;top:0;left:0;right:0;height:20vh;pointer-events:none;z-index:10}
+.petal{position:absolute;top:-20px;background:radial-gradient(circle at 30% 30%,rgba(255,220,230,.9),rgba(255,190,205,.5) 40%,rgba(255,170,190,0) 70%);border-radius:50% 0 50% 50%;animation:fall linear infinite}
+@keyframes fall{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.8}85%{opacity:.4}100%{transform:translate(-40px,22vh) rotate(400deg);opacity:0}}
+
+.title-wrapper{position:relative;z-index:2;text-align:center;margin-bottom:20px}
+.title{font-size:1.8rem;font-weight:900;letter-spacing:4px;line-height:2;
+  background:linear-gradient(135deg,#6ba8d0,#8ba8c8,#b898b8,#d498a8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 2px 6px rgba(150,180,200,.3))}
+.sub{font-size:.65rem;color:rgba(120,140,160,.5);margin-top:8px;letter-spacing:3px}
+.btn-start{cursor:pointer;position:relative;z-index:2;padding:12px 40px;border-radius:30px;border:none;
+  background:linear-gradient(135deg,rgba(120,160,190,.7),rgba(160,130,170,.7));color:#fff;font-size:1rem;font-weight:700;
+  letter-spacing:2px;box-shadow:0 4px 20px rgba(140,160,190,.3);transition:all .3s}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(140,160,190,.45)}
+
+/* Page 2: Character form */
+.page2{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,#c5dbe8 0%,#b0c8da 20%,#9ab5c9 40%,#7a9eb2 60%,#5c8799 80%,#4a7385 100%);z-index:20}
+.page2.show{display:flex;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.form-card{width:90%;max-width:360px;padding:24px 20px;border-radius:16px;
+  background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15)}
+.form-title{text-align:center;font-size:1.2rem;font-weight:800;color:#2c4a5a;margin-bottom:16px}
+.fg{margin-bottom:12px}
+.lb{display:block;font-size:.7rem;color:rgba(40,60,80,.55);margin-bottom:3px;font-weight:600;letter-spacing:.5px}
+.inp{width:100%;padding:9px 12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.5);border-radius:8px;
+  font-size:.85rem;font-family:inherit;color:#1a3040;outline:none;box-sizing:border-box}
+.inp:focus{border-color:rgba(80,140,170,.5)}
+.inp::placeholder{color:rgba(60,100,120,.25)}
+.opts{display:flex;flex-wrap:wrap;gap:5px}
+.opt{padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.3);
+  color:rgba(40,70,90,.55);font-size:.75rem;cursor:pointer;transition:all .15s;font-weight:500;font-family:inherit}
+.opt:hover{background:rgba(255,255,255,.5)}
+.opt.active{background:rgba(90,150,180,.35);border-color:rgba(90,150,180,.5);color:#1a3040;font-weight:700}
+.opt-custom{display:none;margin-top:5px}
+.btn-submit{width:100%;padding:12px;border-radius:10px;border:none;font-family:inherit;font-size:.9rem;font-weight:700;
+  letter-spacing:1px;cursor:pointer;background:linear-gradient(135deg,#5c8fa0,#3d6a7a);color:#fff;margin-top:6px}
+.btn-submit:hover{opacity:.9}
+.btn-submit:disabled{opacity:.5}
+
+#toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(40,80,100,.9);color:#fff;
+  padding:12px 24px;border-radius:10px;font-weight:700;letter-spacing:1px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;text-align:center;font-family:inherit}
+#toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- Page 1: Welcome -->
+<div class="page1" id="page1">
+  <!-- Cherry petals in top 1/5 -->
+  <div class="petals" id="petals"></div>
+
+  <!-- School gate -->
+  <div class="gate-bg">
+    <div class="gate-pillars"></div>
+    <div class="gate-pillars right"></div>
+    <div class="gate-arch"><span class="gate-name">総武高等学校</span></div>
+    <div class="gate-wall"></div>
+  </div>
+
+  <!-- Title & button -->
+  <div class="title-wrapper">
+    <div class="title">やはり俺の<br>青春ラブコメは<br>まちがっている。</div>
+    <div class="sub">MY YOUTH ROMANTIC COMEDY IS WRONG, AS I EXPECTED</div>
+  </div>
+  <button class="btn-start" id="btn-start">开始游玩</button>
+</div>
+
+<!-- Page 2: Character form -->
+<div class="page2" id="page2">
+  <div class="form-card">
+    <div class="form-title">—— 入学登记 ——</div>
+    <div class="fg"><label class="lb">姓名</label><input class="inp" id="name" placeholder="你的名字" maxlength="10"></div>
+    <div class="fg"><label class="lb">年龄</label><input class="inp" id="age" type="number" value="17" min="15" max="20"></div>
+    <div class="fg"><label class="lb">性别</label>
+      <div class="opts" id="opt-gender">
+        <button class="opt" data-v="男">♂ 男</button><button class="opt" data-v="女">♀ 女</button><button class="opt" data-v="__c__">自定义</button>
+      </div><input class="inp opt-custom" id="gender-custom" placeholder="自定义性别" maxlength="10">
+    </div>
+    <div class="fg"><label class="lb">身份</label>
+      <div class="opts" id="opt-role">
+        <button class="opt" data-v="总武高高二J班学生">J班（雪乃）</button><button class="opt" data-v="总武高高二F班学生">F班（八幡·结衣）</button><button class="opt" data-v="总武高高二C班学生">C班（彩加）</button><button class="opt" data-v="__c__">自定义</button>
+      </div><input class="inp opt-custom" id="role-custom" placeholder="自定义身份" maxlength="30">
+    </div>
+    <button class="btn-submit" id="btn-submit">开始故事</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+(function(){
+var sel={gender:'',role:''};
+function $(id){return document.getElementById(id)}
+function toast(m,d){var t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},d||2000)}
+
+// Generate petals
+var petalContainer=$('petals');
+for(var i=0;i<20;i++){
+  var p=document.createElement('div');p.className='petal';
+  p.style.left=Math.random()*100+'%';
+  p.style.animationDelay=Math.random()*6+'s';
+  p.style.animationDuration=(3+Math.random()*5)+'s';
+  p.style.width=(6+Math.random()*10)+'px';p.style.height=p.style.width;
+  petalContainer.appendChild(p);
+}
+
+// Start button
+$('btn-start').addEventListener('click',function(){
+  $('page1').style.display='none';
+  $('page2').classList.add('show');
+});
+
+// Option buttons
+document.querySelectorAll('.opts').forEach(function(g){g.addEventListener('click',function(e){
+  if(!e.target.classList.contains('opt'))return;
+  var b=e.target,v=b.dataset.v,pid=g.id;
+  g.querySelectorAll('.opt').forEach(function(x){x.classList.remove('active')});
+  b.classList.add('active');
+  if(pid==='opt-gender'){sel.gender=v;$('gender-custom').style.display=v==='__c__'?'block':'none'}
+  if(pid==='opt-role'){sel.role=v;$('role-custom').style.display=v==='__c__'?'block':'none'}
+})});
+
+// Submit
+$('btn-submit').addEventListener('click',function(){
+  var name=$('name').value.trim(),age=parseInt($('age').value)||17;
+  if(!name){toast('请输入姓名');return}
+  if(sel.gender==='__c__'){sel.gender=$('gender-custom').value.trim();if(!sel.gender){toast('请输入性别');return}}
+  if(!sel.gender){toast('请选择性别');return}
+  if(sel.role==='__c__'){sel.role=$('role-custom').value.trim();if(!sel.role){toast('请输入身份');return}}
+  if(!sel.role){toast('请选择班级');return}
+  $('btn-submit').disabled=true;$('btn-submit').textContent='创建中...';
+
+  // Save to character variables
+  try{var fn=(typeof parent.insertOrAssignVariables==='function')?parent.insertOrAssignVariables:insertOrAssignVariables;
+    fn({主角:{名称:name,个人信息:{性别:sel.gender,年龄:age},身份:[{组织:'总武高等学校',职位:sel.role}]}},{type:'character'});
+  }catch(e){}
+
+  // Send to AI
+  var msg='开局设置 姓名:'+name+' 年龄:'+age+' 性别:'+sel.gender+' 身份:'+sel.role+'\\n请以轻小说《我的青春恋爱物语果然有问题》的世界观，为这位总武高中的学生创作专属开学第一天开场。';
+  try{var ts=(typeof parent.triggerSlash==='function')?parent.triggerSlash:triggerSlash;
+    ts('/send '+msg.replace(/\\n/g,'\\\\n'));
+  }catch(e){}
+
+  toast('故事即将开始...',3000);
+  setTimeout(function(){$('btn-submit').textContent='开始故事';$('btn-submit').disabled=false},3500);
+});
+})();
+</script>
+</body>
+</html>

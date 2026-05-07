@@ -27,7 +27,9 @@
       "Bash(curl *)",
       "Bash(git fetch *)",
       "Bash(sed -i 's/$/\\\\n/' \"src/春物剧情/第一条消息/0.txt\")",
-      "Bash(sed -i 's/\\\\n$//' \"src/春物剧情/第一条消息/0.txt\")"
+      "Bash(sed -i 's/\\\\n$//' \"src/春物剧情/第一条消息/0.txt\")",
+      "Bash(rm -rf \"src/春物剧情/界面\")",
+      "Bash(echo \"【首页】<StatusPlaceHolderImpl/>\")"
     ]
   },
   "enableAllProjectMcpServers": true,

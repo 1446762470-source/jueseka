@@ -635,7 +635,7 @@
         ```
         <body>
         <script>
-        $('body').load('https://testingcf.jsdelivr.net/gh/1446762470-source/角色卡/dist/春物剧情/界面/角色创建/index.html')
+        $('body').load('https://testingcf.jsdelivr.net/gh/1446762470-source/aaa-/dist/春物剧情/界面/角色创建/index.html')
         </script>
         </body>
         ```
@@ -654,7 +654,7 @@
         ```
         <body>
         <script>
-        $('body').load('https://testingcf.jsdelivr.net/gh/1446762470-source/角色卡/dist/春物剧情/界面/状态栏/index.html')
+        $('body').load('https://testingcf.jsdelivr.net/gh/1446762470-source/aaa-/dist/春物剧情/界面/状态栏/index.html')
         </script>
         </body>
         ```
@@ -679,11 +679,11 @@
         启用: true
         类型: 脚本
         内容: |-
-          import 'https://testingcf.jsdelivr.net/gh/1446762470-source/角色卡/dist/春物剧情/脚本/变量结构/index.js';
+          import 'https://testingcf.jsdelivr.net/gh/1446762470-source/aaa-/dist/春物剧情/脚本/变量结构/index.js';
 
       - 名称: 小手机
         id: e8a7b3c1-2d4f-5e6a-8b9c-0d1e2f3a4b5c
         启用: true
         类型: 脚本
         内容: |-
-          import 'https://testingcf.jsdelivr.net/gh/1446762470-source/角色卡/dist/小手机/小手机.js';
+          import 'https://testingcf.jsdelivr.net/gh/1446762470-source/aaa-/dist/小手机/小手机.js';

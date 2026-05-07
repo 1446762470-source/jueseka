@@ -134,7 +134,11 @@ $('btn-start').addEventListener('click',function(){
   var scene=$('scene').value.trim();
 
   try{
-    if(typeof insertOrAssignVariables==='function'){
+    if(typeof parent.insertOrAssignVariables==='function'){
+      parent.insertOrAssignVariables({
+        主角:{名称:sel._name,个人信息:{性别:sel.gender,年龄:sel._age},身份:[{组织:'总武高等学校',职位:sel.role}]}
+      },{type:'character'});
+    }else if(typeof insertOrAssignVariables==='function'){
       insertOrAssignVariables({
         主角:{名称:sel._name,个人信息:{性别:sel.gender,年龄:sel._age},身份:[{组织:'总武高等学校',职位:sel.role}]}
       },{type:'character'});
@@ -145,7 +149,10 @@ $('btn-start').addEventListener('click',function(){
   if(scene)msg+='\\n场景补充:'+scene;
   msg+='\\n请以轻小说《我的青春恋爱物语果然有问题》的世界观和文风，为这位总武高中的学生创作一个专属的开学第一天开场。';
 
-  if(typeof triggerSlash==='function'){triggerSlash('/send '+msg.replace(/\\n/g,'\\\\n'))}
+  var done=false;
+  if(typeof parent.triggerSlash==='function'){parent.triggerSlash('/send '+msg.replace(/\\n/g,'\\\\n'));done=true}
+  else if(typeof triggerSlash==='function'){triggerSlash('/send '+msg.replace(/\\n/g,'\\\\n'));done=true}
+  if(done)setTimeout(function(){try{parent.document.querySelector('iframe[src]')}catch(e){}document.body.innerHTML='<div style=\"text-align:center;padding-top:40vh;font-family:sans-serif;color:#2c4a5a\"><h2>入学成功</h2><p>故事即将开始...</p></div>'},1000)
   toast('故事即将开始...',3000);
   setTimeout(function(){$('btn-start').textContent='开始故事';$('btn-start').disabled=false},3500);
 });

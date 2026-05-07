@@ -635,7 +635,7 @@
         ```
         <body>
         <script>
-        $('body').load('https://testingcf.jsdelivr.net/gh/1446762470-source/jueseka/dist/春物剧情/界面/角色创建/index.html')
+        $('body').load('https://testingcf.jsdelivr.net/gh/1446762470-source/jueseka/src/春物剧情/界面/角色创建/index.html')
         </script>
         </body>
         ```

@@ -24,7 +24,8 @@
       "Bash(git push *)",
       "Bash(git config *)",
       "WebSearch",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(git fetch *)"
     ]
   },
   "enableAllProjectMcpServers": true,

@@ -16,8 +16,6 @@ body{
 /* ===== 全屏开场页 ===== */
 #welcome{
   position:fixed;inset:0;z-index:9999;overflow:hidden;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding-bottom:clamp(40px,10vh,100px);
   background:linear-gradient(180deg,#c9ddf5 0%,#d4e2f5 25%,#e0d8f0 55%,#f0c8d8 80%,#f5b8c8 100%);
 }
 #welcome.hide{opacity:0;pointer-events:none;transition:opacity 1s ease}
@@ -39,7 +37,7 @@ body{
 }
 
 /* 标题 */
-.hero{position:relative;z-index:5;text-align:center}
+.hero{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
 .hero h1{
   font-size:clamp(1.4rem,3.8vw,2.4rem);font-weight:900;letter-spacing:clamp(3px,.8vw,6px);line-height:1.7;
   background:linear-gradient(135deg,#7cb8d0,#6ba0c0,#b890a8,#d498a8);
@@ -48,7 +46,7 @@ body{
 }
 .hero p{
   font-size:clamp(.7rem,1.5vw,.85rem);color:rgba(120,140,160,.3);
-  margin:clamp(6px,1vw,12px) 0 clamp(32px,5vw,56px);letter-spacing:clamp(3px,.5vw,6px);
+  margin:clamp(6px,1vw,12px) 0 clamp(24px,4vw,40px);letter-spacing:clamp(3px,.5vw,6px);
 }
 .hero button{
   padding:clamp(9px,1.8vw,13px) clamp(30px,5vw,48px);border-radius:24px;border:none;

@@ -7,15 +7,13 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
-html{height:100%}
 body{
-  height:100%;
   font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;
-  display:flex;justify-content:center;align-items:center;padding:1rem;
+  display:flex;justify-content:center;align-items:center;min-height:100vh;padding:1rem;
   background:#f0f4f8;
 }
 
-/* 全屏覆盖层 — 和 .bak 一样的模式 */
+/* 全屏覆盖层 */
 #welcome{
   position:fixed;inset:0;z-index:9999;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -31,7 +29,7 @@ body{
   cursor:pointer;font-family:inherit;
 }
 
-/* 表单卡片 — 正常文档流 */
+/* 表单卡片 */
 .card{
   width:100%;max-width:360px;padding:20px 18px;border-radius:10px;
   background:#fff;border:1px solid #dde4ed;
@@ -74,31 +72,11 @@ body{
 
 <div class="card">
   <h2>入学登记</h2>
-
   <div class="fg"><label>姓名</label><input id="name" placeholder="你的名字" maxlength="10"></div>
   <div class="fg"><label>年龄</label><input id="age" type="number" value="17" min="15" max="20"></div>
-
-  <div class="fg">
-    <label>性别</label>
-    <select id="gender">
-      <option value="">请选择</option>
-      <option value="男">男</option>
-      <option value="女">女</option>
-    </select>
-  </div>
-
-  <div class="fg">
-    <label>身份</label>
-    <select id="role">
-      <option value="">请选择</option>
-      <option value="总武高高二J班学生">J班（雪乃）</option>
-      <option value="总武高高二F班学生">F班（八幡·结衣）</option>
-      <option value="总武高高二C班学生">C班（彩加）</option>
-    </select>
-  </div>
-
+  <div class="fg"><label>性别</label><select id="gender"><option value="">请选择</option><option value="男">男</option><option value="女">女</option></select></div>
+  <div class="fg"><label>身份</label><select id="role"><option value="">请选择</option><option value="总武高高二J班学生">J班（雪乃）</option><option value="总武高高二F班学生">F班（八幡·结衣）</option><option value="总武高高二C班学生">C班（彩加）</option></select></div>
   <div class="fg"><label>特长</label><input id="talent" placeholder="如：洞察人心、文学创作" maxlength="20"></div>
-
   <button class="btn" id="btn-send">开始故事</button>
 </div>
 
@@ -107,13 +85,11 @@ body{
 <script>
 (function(){
 function $(id){return document.getElementById(id)}
-
 function toast(m,d){
   var t=$('toast');t.textContent=m;t.classList.add('show');
   setTimeout(function(){t.classList.remove('show')},d||2000);
 }
 
-// 全屏覆盖层 — 点击关闭
 $('welcome').addEventListener('click',function(){
   this.classList.add('hide');
   setTimeout(function(){$('welcome').style.display='none'},800);
@@ -121,12 +97,8 @@ $('welcome').addEventListener('click',function(){
 
 $('btn-send').addEventListener('click',function(e){
   e.stopPropagation();
-  var name=$('name').value.trim();
-  var age=parseInt($('age').value)||17;
-  var gender=$('gender').value;
-  var role=$('role').value;
-  var talent=$('talent').value.trim();
-
+  var name=$('name').value.trim(),age=parseInt($('age').value)||17;
+  var gender=$('gender').value,role=$('role').value,talent=$('talent').value.trim();
   if(!name){toast('请输入姓名');return}
   if(!gender){toast('请选择性别');return}
   if(!role){toast('请选择身份');return}
@@ -149,7 +121,6 @@ $('btn-send').addEventListener('click',function(e){
     console.error(e);toast('发送失败，请重试');
     $('btn-send').disabled=false;$('btn-send').textContent='开始故事';
   }
-
   setTimeout(function(){
     if($('btn-send').disabled){$('btn-send').disabled=false;$('btn-send').textContent='开始故事'}
   },3500);

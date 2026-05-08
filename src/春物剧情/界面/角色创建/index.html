@@ -10,52 +10,126 @@
 body{
   font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;
   display:flex;justify-content:center;align-items:center;min-height:100vh;padding:1rem;
-  background:#f0f4f8;
+  background:linear-gradient(180deg,#c9ddf5 0%,#d4e2f5 30%,#e8e0f0 60%,#f5d0d8 100%);
 }
 
-/* 全屏覆盖层 */
+/* ===== 全屏开场页 ===== */
 #welcome{
-  position:fixed;inset:0;z-index:9999;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:#fff;cursor:pointer;
+  position:fixed;inset:0;z-index:9999;overflow:hidden;cursor:pointer;
+  background:linear-gradient(180deg,#c9ddf5 0%,#d4e2f5 25%,#e0d8f0 55%,#f0c8d8 80%,#f5b8c8 100%);
 }
-#welcome.hide{opacity:0;pointer-events:none;transition:opacity .8s ease}
+#welcome.hide{opacity:0;pointer-events:none;transition:opacity 1s ease}
 
-#welcome h1{font-size:clamp(1.3rem,3.5vw,2.2rem);font-weight:700;color:#333;letter-spacing:3px;margin-bottom:10px}
-#welcome p{font-size:clamp(.8rem,2vw,1rem);color:#999;margin-bottom:28px}
-#welcome button{
-  padding:clamp(10px,2vw,14px) clamp(32px,6vw,50px);border-radius:6px;border:none;
-  background:#5c8fa0;color:#fff;font-size:clamp(.85rem,2vw,1.1rem);font-weight:700;
-  cursor:pointer;font-family:inherit;
+/* 远景教学楼 */
+.buildings{position:absolute;bottom:28%;left:0;right:0;height:30%;z-index:1}
+.building{
+  position:absolute;bottom:0;background:rgba(180,170,160,.35);
+  border-radius:3px 3px 0 0;
+}
+.b1{left:5%;width:18%;height:70%}
+.b2{left:28%;width:14%;height:90%}
+.b3{left:46%;width:20%;height:75%}
+.b4{left:70%;width:16%;height:85%}
+.building::before{
+  content:'';position:absolute;inset:6px;
+  background:repeating-linear-gradient(
+    0deg,transparent,transparent 14px,rgba(255,255,255,.25) 14px,rgba(255,255,255,.25) 16px
+  ),repeating-linear-gradient(
+    90deg,transparent,transparent 18px,rgba(255,255,255,.2) 18px,rgba(255,255,255,.2) 20px
+  );
 }
 
-/* 表单卡片 */
+/* 校门 */
+.gate{position:absolute;inset:0;z-index:3}
+.gate-pillar{
+  position:absolute;bottom:0;left:18%;width:12%;height:55%;
+  background:linear-gradient(180deg,#b8a898,#9a8a7a,#7a6a5a);
+  border-radius:4px 4px 0 0;box-shadow:3px 0 10px rgba(0,0,0,.08);
+}
+.gate-pillar.r{left:auto;right:18%}
+.gate-beam{
+  position:absolute;top:28%;left:12%;right:12%;height:8%;
+  border:6px solid #b8a898;border-bottom:none;border-radius:14px 14px 0 0;
+}
+.gate-beam span{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:clamp(11px,2vw,15px);color:#b8a898;font-weight:900;letter-spacing:clamp(4px,1vw,8px);white-space:nowrap;
+}
+
+/* 地面 */
+.ground{
+  position:absolute;bottom:0;left:0;right:0;height:28%;z-index:2;
+  background:linear-gradient(180deg,rgba(250,245,240,.3),rgba(240,230,220,.5),rgba(220,210,200,.6));
+}
+
+/* 樱花 */
+.petals{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+.petal{
+  position:absolute;top:-20px;
+  background:radial-gradient(ellipse at 30% 30%,rgba(255,210,220,.85),rgba(255,180,200,.4) 45%,rgba(255,160,180,0) 70%);
+  border-radius:50% 0 50% 50%;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  0%{transform:translate(0,0) rotate(0deg);opacity:0}
+  8%{opacity:.8}
+  80%{opacity:.25}
+  100%{transform:translate(-30px,500px) rotate(380deg);opacity:0}
+}
+
+/* 标题 */
+.hero{position:relative;z-index:5;text-align:center}
+.hero h1{
+  font-size:clamp(1.4rem,3.8vw,2.4rem);font-weight:900;letter-spacing:clamp(3px,.8vw,6px);line-height:1.7;
+  background:linear-gradient(135deg,#7cb8d0,#6ba0c0,#b890a8,#d498a8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-shadow:none;filter:drop-shadow(0 2px 4px rgba(150,140,170,.15));
+}
+.hero p{
+  font-size:clamp(.7rem,1.5vw,.9rem);color:rgba(120,140,160,.35);
+  margin:clamp(8px,1.5vw,16px) 0 clamp(16px,3vw,28px);letter-spacing:clamp(2px,.5vw,5px);
+}
+.hero button{
+  padding:clamp(9px,1.8vw,13px) clamp(30px,5vw,48px);border-radius:24px;border:none;
+  background:linear-gradient(135deg,rgba(120,160,190,.65),rgba(160,130,170,.65));
+  color:#fff;font-size:clamp(.85rem,1.8vw,1.1rem);font-weight:700;letter-spacing:2px;cursor:pointer;
+  box-shadow:0 4px 16px rgba(140,160,190,.25);transition:all .3s;font-family:inherit;
+}
+.hero button:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(140,160,190,.4)}
+
+/* ===== 表单卡片 ===== */
 .card{
-  width:min(92%,520px);padding:clamp(28px,5vw,56px) clamp(18px,3vw,32px);border-radius:10px;
-  background:#fff;border:1px solid #dde4ed;
+  position:relative;z-index:1;
+  width:min(92%,520px);padding:clamp(28px,5vw,56px) clamp(18px,3vw,32px);border-radius:12px;
+  background:rgba(255,255,255,.7);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.4);box-shadow:0 4px 32px rgba(100,120,150,.08);
 }
-.card h2{text-align:center;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#333;margin-bottom:clamp(24px,4vw,40px)}
+.card h2{
+  text-align:center;
+  font-size:clamp(1rem,2.5vw,1.3rem);font-weight:800;margin-bottom:clamp(24px,4vw,40px);
+  background:linear-gradient(135deg,#7cb8d0,#b890a8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
 
 .fg{margin-bottom:clamp(16px,3vw,28px)}
-.fg label{display:block;font-size:clamp(.75rem,1.6vw,.9rem);color:#666;margin-bottom:clamp(4px,1vw,8px);font-weight:600}
+.fg label{display:block;font-size:clamp(.75rem,1.6vw,.9rem);color:rgba(80,80,100,.5);margin-bottom:clamp(4px,1vw,8px);font-weight:600}
 .fg input,.fg select{
-  width:100%;padding:clamp(10px,2vw,16px) clamp(10px,2vw,16px);border:1px solid #dde4ed;
-  background:#fff;border-radius:6px;font-size:clamp(.82rem,1.8vw,1rem);
-  font-family:inherit;color:#333;outline:none;box-sizing:border-box;
+  width:100%;padding:clamp(10px,2vw,16px) clamp(10px,2vw,16px);border:1px solid rgba(180,190,200,.4);
+  background:rgba(255,255,255,.6);border-radius:8px;font-size:clamp(.82rem,1.8vw,1rem);
+  font-family:inherit;color:#334;outline:none;box-sizing:border-box;transition:border .2s;
 }
-.fg input:focus,.fg select:focus{border-color:#7cb8d0;box-shadow:0 0 0 2px rgba(124,184,208,.15)}
+.fg input:focus,.fg select:focus{border-color:rgba(140,180,200,.7);box-shadow:0 0 0 3px rgba(160,190,210,.15)}
 
 .btn{
-  width:100%;padding:clamp(10px,1.5vw,14px);border-radius:6px;border:none;font-family:inherit;
+  width:100%;padding:clamp(10px,1.5vw,14px);border-radius:8px;border:none;font-family:inherit;
   font-size:clamp(.85rem,1.8vw,1rem);font-weight:700;cursor:pointer;transition:all .2s;
-  background:#5c8fa0;color:#fff;margin-top:6px;
+  background:linear-gradient(135deg,#7cb8d0,#6ea8b8);color:#fff;margin-top:6px;
 }
-.btn:hover{background:#4a7a8a}
-.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(120,170,190,.3)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
 #toast{
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  background:rgba(0,0,0,.75);color:#fff;padding:10px 20px;border-radius:8px;
+  background:rgba(70,100,120,.9);color:#fff;padding:10px 20px;border-radius:10px;
   font-weight:600;opacity:0;transition:opacity .3s;
   pointer-events:none;z-index:99999;font-family:inherit;
 }
@@ -65,9 +139,21 @@ body{
 <body>
 
 <div id="welcome">
-  <h1>やはり俺の青春ラブコメはまちがっている。</h1>
-  <p>点击任意位置进入</p>
-  <button>开始游玩</button>
+  <div class="buildings">
+    <div class="building b1"></div><div class="building b2"></div>
+    <div class="building b3"></div><div class="building b4"></div>
+  </div>
+  <div class="ground"></div>
+  <div class="gate">
+    <div class="gate-pillar"></div><div class="gate-pillar r"></div>
+    <div class="gate-beam"><span>総武高等学校</span></div>
+  </div>
+  <div class="petals" id="petals"></div>
+  <div class="hero">
+    <h1>やはり俺の<br>青春ラブコメは<br>まちがっている。</h1>
+    <p>MY YOUTH ROMANTIC COMEDY IS WRONG, AS I EXPECTED</p>
+    <button>开始游玩</button>
+  </div>
 </div>
 
 <div class="card">
@@ -90,9 +176,21 @@ function toast(m,d){
   setTimeout(function(){t.classList.remove('show')},d||2000);
 }
 
+// 樱花花瓣
+var pc=$('petals');
+for(var i=0;i<24;i++){
+  var p=document.createElement('div');p.className='petal';
+  p.style.left=Math.random()*100+'%';
+  p.style.animationDelay=Math.random()*8+'s';
+  p.style.animationDuration=(3.5+Math.random()*5)+'s';
+  p.style.width=(5+Math.random()*10)+'px';p.style.height=p.style.width;
+  pc.appendChild(p);
+}
+
+// 关闭开场页
 $('welcome').addEventListener('click',function(){
   this.classList.add('hide');
-  setTimeout(function(){$('welcome').style.display='none'},800);
+  setTimeout(function(){$('welcome').style.display='none'},1000);
 });
 
 $('btn-send').addEventListener('click',function(e){

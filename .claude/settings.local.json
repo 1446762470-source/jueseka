@@ -29,7 +29,13 @@
       "Bash(sed -i 's/$/\\\\n/' \"src/春物剧情/第一条消息/0.txt\")",
       "Bash(sed -i 's/\\\\n$//' \"src/春物剧情/第一条消息/0.txt\")",
       "Bash(rm -rf \"src/春物剧情/界面\")",
-      "Bash(echo \"【首页】<StatusPlaceHolderImpl/>\")"
+      "Bash(echo \"【首页】<StatusPlaceHolderImpl/>\")",
+      "Bash(\\\\'body\\\\')",
+      "Bash(git checkout *)",
+      "Bash(npx sharp-cli *)",
+      "Bash(ls test.jpg)",
+      "Bash(npx --yes sharp-cli --input 69a69a551d9e6d87afe9e4acbcaf1b5f.png --output test2.webp)",
+      "mcp__chrome-devtools__new_page"
     ]
   },
   "enableAllProjectMcpServers": true,
